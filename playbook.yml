@@ -1,0 +1,17 @@
+---
+- name: Deploy to Tomcat
+  hosts: web
+  become: yes
+
+  tasks:
+    - name: Copy WAR file to Tomcat
+      copy:
+        src: "//home/gurukiran-h-s/MavenAnsible/target/MavenAnsible.war"
+        dest: "/opt/tomcat/webapps/MavenAnsible.war"
+        mode: '0644'
+
+    - name: Restart Tomcat
+      systemd:
+        name: tomcat
+        state: restarted
+        enabled: yes
