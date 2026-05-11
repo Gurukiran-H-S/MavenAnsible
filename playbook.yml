@@ -6,7 +6,7 @@
   tasks:
     - name: Copy WAR file to Tomcat
       copy:
-        src: "//home/gurukiran-h-s/MavenAnsible/target/MavenAnsible.war"
+        src: "/home/gurukiran-h-s/MavenAnsible/target/MavenAnsible.war"
         dest: "/opt/tomcat/webapps/MavenAnsible.war"
         mode: '0644'
 
@@ -14,4 +14,3 @@
       systemd:
         name: tomcat
         state: restarted
-        enabled: yes
