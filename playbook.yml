@@ -1,29 +1,28 @@
 ---
-
-* name: Deploy to Tomcat
+- name: Deploy to Tomcat
   hosts: web
   become: yes
 
   tasks:
 
-  * name: Check WAR file exists
-    stat:
-    path: /var/lib/jenkins/workspace/MavenAnsible/target/MavenAnsible.war
-    register: war_file
+    - name: Check WAR file exists
+      stat:
+        path: /var/lib/jenkins/workspace/MavenAnsible/target/MavenAnsible.war
+      register: war_file
 
-  * name: Fail if WAR file is missing
-    fail:
-    msg: "WAR file not found in Jenkins workspace!"
-    when: not war_file.stat.exists
+    - name: Fail if WAR file is missing
+      fail:
+        msg: "WAR file not found in Jenkins workspace!"
+      when: not war_file.stat.exists
 
-  * name: Copy WAR file to Tomcat
-    copy:
-    src: /var/lib/jenkins/workspace/MavenAnsible/target/MavenAnsible.war
-    dest: /opt/tomcat/webapps/MavenAnsible.war
-    mode: '0644'
+    - name: Copy WAR file to Tomcat
+      copy:
+        src: /var/lib/jenkins/workspace/MavenAnsible/target/MavenAnsible.war
+        dest: /opt/tomcat/webapps/MavenAnsible.war
+        mode: '0644'
 
-  * name: Restart Tomcat
-    systemd:
-    name: tomcat
-    state: restarted
-    enabled: yes
+    - name: Restart Tomcat
+      systemd:
+        name: tomcat
+        state: restarted
+        enabled: yes
